@@ -1,0 +1,41 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int main()
+{
+    string s;
+    cin >> s;
+
+    unordered_map<int, int> mp;
+
+    int sum = 0;
+    int maxLen = 0;
+
+    // Prefix sum 0 is considered to be at index -1
+    mp[0] = -1;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == '1')
+            sum += 1;
+        else
+            sum -= 1;
+
+        // If this prefix sum was seen before
+        if (mp.find(sum) != mp.end())
+        {
+            int len = i - mp[sum];
+            maxLen = max(maxLen, len);
+        }
+        else
+        {
+            // Store only the first occurrence
+            mp[sum] = i;
+        }
+    }
+
+    cout << "Length of longest substring = " << maxLen << endl;
+
+    return 0;
+}
